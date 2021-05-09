@@ -1,0 +1,151 @@
+<nz-page-header nzBackIcon>
+  <nz-page-header-title>Form Penerimaan Bantuan Pandemi</nz-page-header-title>
+  <nz-breadcrumb nz-page-header-breadcrumb nzSeparator=">">
+    <nz-breadcrumb-item>
+      <a>Penerimaan Bantuan Pandemi</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item> Form </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</nz-page-header>
+<div class="inner-content kt-mt-30">
+  <form nz-row nz-form nzLayout="vertical" class="form-filter" [formGroup]="form">
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>Nama</nz-form-label>
+        <nz-form-control nzSpan="20" nzErrorTip="Mohon masukkan nama">
+          <input formControlName="name" type="text" nz-input placeholder="Masukkan nama" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired>NIK</nz-form-label>
+        <nz-form-control nzSpan="20" nzErrorTip="Mohon masukkan NIK">
+          <input type="number" formControlName="nik" nz-input placeholder="Masukkan NIK" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired>No. KK</nz-form-label>
+        <nz-form-control nzSpan="20" nzErrorTip="Mohon masukkan no. KK">
+          <input type="number" formControlName="nkk" nz-input placeholder="Masukkan no. KK" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired>Foto KTP</nz-form-label>
+        <nz-form-control nzSpan="20">
+          <input type="file" accept="image/png, image/jpeg" (change)="onKTPFileChange($event)" #uploadKTPFile nz-input
+            style="display: none" />
+          <button nz-button (click)="openKTPUploadDialog()" class="mr-5">
+            <i nz-icon nzType="upload"></i>
+            Upload
+          </button>
+          <span class="kt-ml-5">{{ktpControl?.value?.name || 'File max. size 2 MB'}} </span>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired>Foto KK</nz-form-label>
+        <nz-form-control nzSpan="20">
+          <input type="file" accept="image/png, image/jpeg" (change)="onKKFileChange($event)" #uploadKKFile nz-input
+            style="display: none" />
+          <button nz-button (click)="openKKUploadDialog()" class="mr-5">
+            <i nz-icon nzType="upload"></i>
+            Upload
+          </button>
+          <span class="kt-ml-5">{{kkControl?.value?.name || 'File max. size 2 MB'}}</span>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-card *ngIf="kkControl?.value">
+        <i nz-icon nzType="file-image" nzTheme="outline"></i>
+        {{ kkControl?.value.name }}
+      </nz-card>
+      <nz-form-item>
+        <nz-form-label nzRequired>Umur</nz-form-label>
+        <nz-form-control nzSpan="20" nzErrorTip="Mohon masukkan umur">
+          <input type="number" formControlName="age" nz-input placeholder="Masukkan umur" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired>Jenis Kelamin</nz-form-label>
+        <nz-form-control nzSpan="20" nzErrorTip="Mohon masukkan Jenis Kelamin">
+          <nz-radio-group formControlName="gender">
+            <label nz-radio-button nzValue="L">Laki-laki</label>
+            <label nz-radio-button nzValue="P">Perempuan</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>Alamat</nz-form-label>
+        <nz-form-control nzSpan="20" nzErrorTip="Mohon masukkan alamat">
+          <textarea formControlName="address" placeholder="Masukkan alamat" rows="4" nz-input
+            maxlength="255"></textarea>
+          <span style="float: right">{{ addressControl?.value ? addressControl?.value.length : 0 }} /
+            255</span>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired>RT/RW</nz-form-label>
+        <nz-form-control nzSpan="20" nzErrorTip="Mohon masukkan RT/RW">
+          <nz-input-group nzCompact>
+            <input type="number" formControlName="rt" nz-input placeholder="RT" min="0" max="13"
+              style="width:40%; text-align: center;" maxlength="2" />
+            <input type="text" disabled nz-input placeholder="/"
+              style="text-align: center; width: 20%; border-left: 0px; border-right: 0px; pointer-events: none; background-color: rgb(255, 255, 255);" />
+            <input type="number" formControlName="rw" nz-input placeholder="RW" min="0" max="9"
+              style="width:40%; border-left: 0px;" maxlength="2" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired>Penghasilan Sebelum Pandemi</nz-form-label>
+        <nz-form-control nzSpan="20" nzErrorTip="Mohon masukkan penghasilan sebelum pandemi">
+          <nz-input-group nzPrefix="Rp">
+            <input type="number" nz-input formControlName="incomeBefore"
+              placeholder="Masukkan penghasilan sebelum pandemi" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired>Penghasilan Setelah Pandemi</nz-form-label>
+        <nz-form-control nzSpan="20" nzErrorTip="Mohon masukkan penghasilan setelah pandemi">
+          <nz-input-group nzPrefix="Rp">
+            <input type="number" nz-input formControlName="incomeAfter"
+              placeholder="Masukkan penghasilan setelah pandemi" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired>Alasan Membutuhkan Bantuan</nz-form-label>
+        <nz-form-control nzSpan="20" nzErrorTip="Mohon pilih alasan bantuan">
+          <nz-select formControlName="reasonOption" nzPlaceHolder="Pilih alasan membutuhkan bantuan">
+            <nz-option nzValue="Kehilangan pekerjaan" nzLabel="Kehilangan pekerjaan"></nz-option>
+            <nz-option nzValue="Kepala keluarga terdampak atau korban Covid"
+              nzLabel="Kepala keluarga terdampak atau korban Covid"></nz-option>
+            <nz-option nzValue="Tergolong fakir/miskin semenjak sebelum Covid"
+              nzLabel="Tergolong fakir/miskin semenjak sebelum Covid"></nz-option>
+            <nz-option nzValue="Lainnya" nzLabel="Lainnya"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="reasonOptionControl?.value === 'Lainnya'">
+        <nz-form-label nzRequired>Masukkan Alasan</nz-form-label>
+        <nz-form-control nzSpan="20" nzErrorTip="Mohon masukkan alasan">
+          <textarea formControlName="reason" placeholder="Masukkan alasan" rows="4" nz-input maxlength="255"></textarea>
+          <span style="float: right">{{ reasonControl?.value ? reasonControl?.value.length : 0 }} /
+            255</span>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </form>
+  <div class="form-action" nz-row nzType="flex" [nzGutter]="{ xs: 2, sm: 4, md: 8, lg: 16 }">
+    <div nz-col nzSpan="4" nzOffset="16">
+      <button nz-button nzType="primary" nzBlock [nzLoading]="isLoading" (click)="submit()">
+        Simpan
+      </button>
+    </div>
+    <div nz-col nzSpan="4">
+      <button nz-button nzType="default" nzBlock [disabled]="isLoading" (click)="form.reset()">
+        Batal
+      </button>
+    </div>
+  </div>
+</div>
