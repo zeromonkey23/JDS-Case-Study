@@ -24,6 +24,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     NzCardModule,
     NzIconModule,
     NzRadioModule,
-    NzSelectModule
+    NzSelectModule,
+    NzCheckboxModule,
   ],
   providers: [
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },

@@ -58,9 +58,15 @@
       </nz-card>
       <nz-form-item>
         <nz-form-label nzRequired>Umur</nz-form-label>
-        <nz-form-control nzSpan="20" nzErrorTip="Mohon masukkan umur">
-          <input type="number" formControlName="age" nz-input placeholder="Masukkan umur" />
+        <nz-form-control nzSpan="20" [nzErrorTip]="ageError">
+          <nz-input-group nzSuffix="Tahun">
+            <input type="number" formControlName="age" nz-input placeholder="Masukkan umur" />
+          </nz-input-group>
         </nz-form-control>
+        <ng-template #ageError>
+          <span *ngIf="ageControl?.hasError('required')">Mohon masukkan umur</span>
+          <span *ngIf="ageControl?.hasError('min')">Umur tidak boleh kurang dari 25 tahun</span>
+        </ng-template>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label nzRequired>Jenis Kelamin</nz-form-label>
@@ -84,14 +90,15 @@
       </nz-form-item>
       <nz-form-item>
         <nz-form-label nzRequired>RT/RW</nz-form-label>
-        <nz-form-control nzSpan="20" nzErrorTip="Mohon masukkan RT/RW">
+        <nz-form-control nzSpan="20" nzErrorTip="Mohon masukkan RT/RW yang benar"
+          nzExtra="RT terdiri dari 13 RT dan RW terdiri dari 9 RW">
           <nz-input-group nzCompact>
             <input type="number" formControlName="rt" nz-input placeholder="RT" min="0" max="13"
               style="width:40%; text-align: center;" maxlength="2" />
             <input type="text" disabled nz-input placeholder="/"
               style="text-align: center; width: 20%; border-left: 0px; border-right: 0px; pointer-events: none; background-color: rgb(255, 255, 255);" />
             <input type="number" formControlName="rw" nz-input placeholder="RW" min="0" max="9"
-              style="width:40%; border-left: 0px;" maxlength="2" />
+              style="width:40%; border-left: 0px; text-align: center" maxlength="2" />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
@@ -135,10 +142,17 @@
         </nz-form-control>
       </nz-form-item>
     </div>
+    <div nz-col [nzSpan]="24">
+      <label nz-checkbox formControlName="agreement">
+        <span>Saya menyatakan bahwa data yang diisikan adalah benar dan siap mempertanggungjawabkan apabila ditemukan
+          ketidaksesuaian dalam data tersebut.</span>
+      </label>
+    </div>
   </form>
   <div class="form-action" nz-row nzType="flex" [nzGutter]="{ xs: 2, sm: 4, md: 8, lg: 16 }">
     <div nz-col nzSpan="4" nzOffset="16">
-      <button nz-button nzType="primary" nzBlock [nzLoading]="isLoading" (click)="submit()">
+      <button nz-button nzType="primary" nzBlock [nzLoading]="isLoading" [disabled]="!agreementControl?.value"
+        (click)="submit()">
         Simpan
       </button>
     </div>
